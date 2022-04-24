@@ -3,28 +3,177 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bulma.css') }}">  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css"/>  
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"> 
+    
 
     <title>Final Project BC0 10th Edition</title>
 </head>
 <body>
-    <header>
-    <section class="hero is-primary has-text-centered">
-        <div class="hero-body">
-            <div class="container">
-                <h1 class="title">My Crypto</h1>
+<section class="hero is-primary has-text-centered is-fullheight">
+  <div class="hero-head">
+    <h1 class="title is-1">My Crypto</h1>
+  </div>
+ 
+  <div class="hero-body">
+    <div class="column is-mobile">
+     <section id="history-table" class="box">
+        <h2 class="title1 is-size-4">
+          Trading History
+        </h2>
+            <div class="box">
+              <table class="table is-bordered is-striped is-fullwidth">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Time</th>  
+                  <th>Amount</th>  
+                  <th>From</th>    
+                  <th>Amount</th>
+                  <th>To</th>
+                </tr>
+             </thead>
+             <tbody id="tbody-history" >
+            </tbody>
+          </table> 
+           </div>
+           <button id="update_history" class="button is-info is-hoverable">
+            Update</button> 
+     </section>
+    </div>
+    </div>
+    <div class="column is-mobile">
+      <section class="section">
+        <div class="box">
+          <h2 class="title3 is-size-4">
+            Wallet</h2>
+            <div class="box">
+              <div class="content text-strong">
+                <p>
+                  <strong>Total Value</strong>
+                </p>
+                <p>
+                  Prueba 1234567890
+                </p>
+                </div>
             </div>
-        </div>
-    </header>
- <script src="{{ url_for('static',filename='app.js') }}"></script>
         
+          <table class="table is-horizantal is-striped is-fullwidth">
+            <thead>
+              <tr> 
+                <th>Invested(EUR)</th>
+                <th>Earnings</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-wallet" >
+            </tbody>
+          </table>
+            <button id="update_wallet" class="button is-info is-hoverable">
+              Update</button>  
+        </div>   
+     </section>
+    </div>
+  </div> 
+
+  <div class="box">
+    <button id="btn-trades" class="button is-success is-large is-hoverable">
+      TRADES</button>
+  </div>
+  
+  <section id="trades" class="container inactive">
+    <section class="box">
+    <h2 class="title4 is-size-4">
+      Buy / Sell Crypto</h2>
+     <div class="container">
+    <form id="form-trades">
+        <input type="text" id="id" hidden>
         
-    <footer class="footer">
-      <div class="content has-text-centered">
-        <p>
-          © 2022. Todos los derechos reservados
+        <div class="field is-grouped">
+         <p class="control">
+         <span class="select is-multiple">
+          <select class="is-focused" id="crypto_from">
+            <option>From:</option>
+            <option value="EUR">EUR</option>
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+            <option value="BNB">BNB</option>
+            <option value="ADA">ADA</option>
+            <option value="USDT">USDT</option>
+            <option value="MATIC">MATIC</option>
+            <option value="LUNA">LUNA</option>
+            <option value="SOL">SOL</option>
+            <option value="ATOM">ATOM</option>
+          </select>
+          </span>
+         </p>
+
+          <p class="control">
+            <input class="input" type="number" placeholder="Amount" id="amount_from" >
+          </p>
+          </div>
+          <div >
+            <a class="button is-warning is-hoverable" id="calculate">
+              <span class="material-icons-outlined">
+                calculate
+                </span>
+                <p>Calculate</p>
+            </a>
+          </div>
+      
+        <div class="field is-grouped">
+          <p class="control">
+        <span class="select is-multiple">
+          <select class="is-focused" id="crypto_to">
+            <option>To:</option>
+            <option value="EUR">EUR</option>
+            <option value="BTC">BTC</option>
+            <option value="ETH">ETH</option>
+            <option value="BNB">BNB</option>
+            <option value="ADA">ADA</option>
+            <option value="USDT">USDT</option>
+            <option value="MATIC">MATIC</option>
+            <option value="LUNA">LUNA</option>
+            <option value="SOL">SOL</option>
+            <option value="ATOM">ATOM</option>
+          </select>
+          </span>
         </p>
+        <div class="content">
+        <p class="is-size-4" id="amount_to">
+
+        </p>
+        </div>
       </div>
-    </footer>
+
+        <div class="field">
+        <div class="control has-text-centered">
+            <button id="accept" class="button is-success">
+              Accept</button>
+            <button id="cancel"class="button is-danger">
+              Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  </section>
+</section>
+
+  <div class="hero-foot">
+    <div class="container has-text-centered">
+      <p>
+        © Copyright
+      </p>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static',filename='app.js') }}"></script>  
+
 </body>
-</html>
+</html>   
+  
+      
+        
+          
+
+
+        
