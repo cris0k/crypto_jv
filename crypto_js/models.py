@@ -54,7 +54,7 @@ class Database_inquiry:
         for item in cur.description:
             field.append(item[0])
 
-            result = []
+            result = {}
         
         for row in rows:
             registry = {}
