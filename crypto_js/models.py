@@ -54,12 +54,13 @@ class Database_inquiry:
         for item in cur.description:
             field.append(item[0])
 
-            result = {}
+            result = []
         
         for row in rows:
             registry = {}
             for key, value in zip(field, row):
                 registry[key] = value
+                
             result.append(registry)
 
         return result
@@ -119,11 +120,8 @@ class Database_inquiry:
 
 
 
-
     """ # ESTO ES EN EL MODELO
-    # Distinguir si es EUR o no la divisa from_moneda
-    # Si es EUR
-    # Grabar BBDD con fecha y hora
+    # Distinguir si es EUR o no la divisa from_moneda. si es Euro grabo en la bbdd
     # Si no es Eur
     # Obtengo el saldo de la BBDD de la divisa from_moneda del usuario (mockear) y compruebo que sea igual o mayor a from_cantidad
     # Grabar BBDD con fecha y hora

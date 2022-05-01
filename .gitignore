@@ -4,3 +4,4 @@ config.py
 venv/
 mock.json
 **.vscode
+data/history.sqbpro

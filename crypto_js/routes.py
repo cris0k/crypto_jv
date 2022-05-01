@@ -48,6 +48,7 @@ def save_exchange():
 
         return jsonify({'status': 'error', 'msg': str(e)})
 
+
 @app.route("/api/v1/trading_history")
 def trading_history():
 

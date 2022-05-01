@@ -4,7 +4,7 @@
 
 Crypto_js is an application which allows you to see real-time crypto value.\
 You are also able to buy and sell your assets and have all your transaction and values shown on a table,\
-just remember these will not be real transacrions.
+just remember these will not be real transactions.
 
 
 # INSTRUCTIONS TO RUN
