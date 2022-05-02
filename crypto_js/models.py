@@ -1,14 +1,11 @@
+from crypto_js import GET_RATE_COINAPI, CRYPTO
+from crypto_js.errors import APIError, CONNECT_ERROR
 import sqlite3
 import requests
 import json
 from decimal import Decimal
 from datetime import datetime
 
-
-# from crypto_js import GET_RATE_COINAPI
-from crypto_js.errors import APIError, CONNECT_ERROR
-
-GET_RATE_COINAPI = "https://rest.coinapi.io/v1/exchangerate/{}/{}?apikey={}"
 class CryptoValueModels:
     def __init__(self, apikey, crypto_from = "", crypto_to = ""):
         self.apikey = apikey
@@ -19,23 +16,23 @@ class CryptoValueModels:
 
     def get_rate(self):
 
-        with open('crypto_js/mock.json') as json_file:
-            answer = json.load(json_file)
+        # with open('crypto_js/mock.json') as json_file:
+        #     answer = json.load(json_file)
 
-        # try:
-        #     answer = requests.get(GET_RATE_COINAPI.format(
-        #         self.crypto_from,
-        #         self.crypto_to,
-        #         self.apikey
-        #     ))
-        # except:
-        #     raise APIError(CONNECT_ERROR)            
+        try:
+            answer = requests.get(GET_RATE_COINAPI.format(
+                self.crypto_from,
+                self.crypto_to,
+                self.apikey
+            ))
+        except:
+            raise APIError(CONNECT_ERROR)            
 
-        # if answer.status_code != 200:
-        #     #raise APIError(respuesta.status_code, respuesta.json()["error"])
-        #     raise APIError(answer.status_code)
+        if answer.status_code != 200:
+            #raise APIError(respuesta.status_code, respuesta.json()["error"])
+            raise APIError(answer.status_code)
 
-        self.rate = Decimal(answer["rate"])
+        self.rate = Decimal(answer.json()["rate"])
     
     def calculate_rate(self,amount_from=1):
         self.get_rate()

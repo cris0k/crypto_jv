@@ -17,16 +17,17 @@ def inicio():
 
 @app.route("/api/v1/trading/<string:crypto_from>/<string:crypto_to>/<amount_from>", methods=['GET'])
 def trading(crypto_from,crypto_to, amount_from):
-  crypto_value = CryptoValueModels(apikey, crypto_from, crypto_to)
-  rate = crypto_value.calculate_rate(Decimal(amount_from))
-  
-  return {
+    crypto_value = CryptoValueModels(apikey, crypto_from, crypto_to)
+    rate = crypto_value.calculate_rate(Decimal(amount_from))
+    try:
+        return {
         "status": "success",
         "data": {
             "trading": rate
             }
         }
- 
+    except:
+        return jsonify({'status': 'failed attempt to get rate'})
 
 @app.route("/api/v1/save_exchange", methods=["POST"])
 def save_exchange():
@@ -57,5 +58,5 @@ def trading_history():
         return jsonify(data)
     
     except:
-        return jsonify({'status': 'failed attempt'})
+        return jsonify({'status': 'failed attempt to get the trading history'})
 
