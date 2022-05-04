@@ -16,9 +16,6 @@ class CryptoValueModels:
 
     def get_rate(self):
 
-        # with open('crypto_js/mock.json') as json_file:
-        #     answer = json.load(json_file)
-
         try:
             answer = requests.get(GET_RATE_COINAPI.format(
                 self.crypto_from,

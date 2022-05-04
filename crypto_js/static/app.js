@@ -49,9 +49,14 @@ document.querySelector("#calculate").addEventListener('click', (ev) => {
         crypto_to: document.querySelector("#crypto_to").value,
         amount_from: document.querySelector("#amount_from").value,
     }
-
     getTrading(data);
-})
+
+    document.querySelector("#amount_from").addEventListener('keydown', (ev) => {
+        if (ev.keyCode === 8 || e.keyCode == 46 ){
+            amount_to.innerHTML = "";
+        };
+    });
+});
 
 document.querySelector("#accept").addEventListener('click', (ev) => {
     ev.preventDefault();
@@ -64,13 +69,20 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
     }
 
     saveExchange(data)
+
+    document.querySelector("#cancel").addEventListener('click', (ev) => {
+        ev.preventDefault();
+        data.innerHTML = "";
+    });
 });
 
 document.querySelector("#btn-trades").addEventListener('click', (ev) => {
     ev.preventDefault();
     const trades = document.querySelector("#trades");
-    trades.classList.toggle('is-hidden');
+    trades.classList.toggle('is-sr-only');
 });
+
+
 /**
  * 
  * Main
@@ -96,6 +108,3 @@ function loadTableData(data) {
 
     }
 }
-
-
-
