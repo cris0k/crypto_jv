@@ -49,10 +49,14 @@ document.querySelector("#calculate").addEventListener('click', (ev) => {
         crypto_to: document.querySelector("#crypto_to").value,
         amount_from: document.querySelector("#amount_from").value,
     }
-    getTrading(data);
+
+    formValidation(data)  
+        
+    
+    
 
     document.querySelector("#amount_from").addEventListener('keydown', (ev) => {
-        if (ev.keyCode === 8 || e.keyCode == 46 ){
+        if (ev.keyCode === 8){
             amount_to.innerHTML = "";
         };
     });
@@ -67,19 +71,28 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
         crypto_to: document.querySelector("#crypto_to").value,
         amount_to: document.querySelector("#amount_to").innerText
     }
+    if(data.crypto_from === "From:"|| 
+       data.crypto_to === "To:" || 
+       data.amount_to === "")
+       {
+        alert ( "You must fill up all fields")
+    }
+    else{
+        saveExchange(data)
 
-    saveExchange(data)
+    }
 
-    document.querySelector("#cancel").addEventListener('click', (ev) => {
-        ev.preventDefault();
-        data.innerHTML = "";
+    
+document.querySelector("#cancel").addEventListener('click', (ev) => {
+    ev.preventDefault();
+    data.innerHTML = "";
     });
 });
 
 document.querySelector("#btn-trades").addEventListener('click', (ev) => {
     ev.preventDefault();
     const trades = document.querySelector("#trades");
-    trades.classList.toggle('is-sr-only');
+    trades.classList.toggle('is-hidden');
 });
 
 
@@ -107,4 +120,21 @@ function loadTableData(data) {
         tbody.appendChild(row)
 
     }
+} 
+
+function formValidation(data) {
+    if (data.crypto_from === data.crypto_to) {
+        alert('The cryptos can not be the same. Choose again')
+    }
+    else if(data.amount_from < 0.01 || data.amount_from === ""){
+        alert("Wrong amount")
+    }
+    else if(data.crypto_from === "From:"|| data.crypto_to === "To:" )
+       {
+        alert ( "You must fill up all fields")
+    }
+    else {
+        getTrading(data);
+    }
+
 }

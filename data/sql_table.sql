@@ -9,3 +9,8 @@ CREATE TABLE "history" (
 	"amount_to"	REAL NOT NULL,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
+CREATE TABLE "wallet" (
+	"total_value"	REAL,
+	"invested"	REAL,
+	"earnings"	REAL
+);

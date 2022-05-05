@@ -15,26 +15,33 @@ class CryptoValueModels:
         self.rate = 0
 
     def get_rate(self):
-
         try:
-            answer = requests.get(GET_RATE_COINAPI.format(
+            if self.crypto_from == CRYPTO[0]:
+                answer = requests.get(GET_RATE_COINAPI.format(
                 self.crypto_from,
                 self.crypto_to,
                 self.apikey
-            ))
+                ))
+
+                self.rate = Decimal(answer.json()["rate"])
+                
+            else:
+                print("check balance")
+
         except:
-            raise APIError(CONNECT_ERROR)            
+            if answer.status_code != 200:
+                raise APIError(answer.status_code, answer.json()["Api has failed"])
 
-        if answer.status_code != 200:
-            #raise APIError(respuesta.status_code, respuesta.json()["error"])
-            raise APIError(answer.status_code)
-
-        self.rate = Decimal(answer.json()["rate"])
     
     def calculate_rate(self,amount_from=1):
         self.get_rate()
-        amount_to= amount_from*self.rate
+
+        amount_to = amount_from*self.rate
         return amount_to
+    
+    def checkBalance(self):
+        pass
+
 
 class Database_inquiry:
     def __init__(self, file=":history.db:"):
@@ -111,6 +118,14 @@ class Database_inquiry:
                     """
         )
 
+    def check_balance(self):
+        return 
+
+    def wallet_data(self):
+        return self.get_exchange_data("""
+                        SELECT total__value,invested,earnings
+                        FROM wallet
+                    """)
 
 
 

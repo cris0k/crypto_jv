@@ -1,5 +1,6 @@
 from crypto_js import app
 from flask import render_template, jsonify, request
+from crypto_js.errors import CONNECT_ERROR, APIError
 from crypto_js.models import CryptoValueModels, Database_inquiry
 import sqlite3
 from decimal import Decimal
@@ -17,17 +18,19 @@ def inicio():
 
 @app.route("/api/v1/trading/<string:crypto_from>/<string:crypto_to>/<amount_from>", methods=['GET'])
 def trading(crypto_from,crypto_to, amount_from):
+    
     crypto_value = CryptoValueModels(apikey, crypto_from, crypto_to)
     rate = crypto_value.calculate_rate(Decimal(amount_from))
     try:
         return {
-        "status": "success",
-        "data": {
-            "trading": rate
-            }
+            "status": "success",
+            "data": {
+                "trading": rate
+                }
         }
     except:
-        return jsonify({'status': 'failed attempt to get rate'})
+        if crypto_from == "From:" or crypto_to == "To:" or amount_from == "" or rate == "":
+            return jsonify({'status': 'failed attempt to get rate'})
 
 @app.route("/api/v1/save_exchange", methods=["POST"])
 def save_exchange():
@@ -47,7 +50,7 @@ def save_exchange():
         return jsonify({'status': 'success'})
     except sqlite3.Error as e:
 
-        return jsonify({'status': 'error', 'msg': str(e)})
+        return jsonify({'status': 'failed', 'msg': str(e)})
 
 
 @app.route("/api/v1/trading_history")
@@ -57,6 +60,7 @@ def trading_history():
     try:
         return jsonify(data)
     
-    except:
-        return jsonify({'status': 'failed attempt to get the trading history'})
+    except sqlite3.Error as e:
+
+        return jsonify({'status': 'failed', 'msg': str(e)})
 
