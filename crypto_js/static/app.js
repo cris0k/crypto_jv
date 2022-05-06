@@ -8,7 +8,13 @@ const getTrading = (data) => {
     fetch(`http://127.0.0.1:5000/api/v1/trading/${data.crypto_from}/${data.crypto_to}/${data.amount_from}`)
         .then(response => response.json())
         .then(dataResponse => {
-            document.querySelector("#amount_to").innerHTML = dataResponse.data.trading
+            if (dataResponse.status !== 'error') {
+                document.querySelector("#amount_to").innerHTML = dataResponse.data.trading
+            } else {
+                handlerError(dataResponse);
+                document.querySelector("#amount_to").innerHTML = "";
+            }
+            
         });
 }
 
@@ -16,7 +22,12 @@ const getTradingHistory = () => {
     fetch(`http://127.0.0.1:5000/api/v1/trading_history`)
         .then(response => response.json())
         .then(dataResponse => {
-            loadTableData(dataResponse)
+            if(dataResponse.status !== 'error') {
+                loadTableData(dataResponse);
+            } else {
+                handlerError(dataResponse);
+            }
+            
         });
 }
 
@@ -28,9 +39,14 @@ const saveExchange = (data) => {
         })
         .then(response => response.json())
         .then(dataResponse => {
-            console.log(dataResponse);
-            getTradingHistory()
+            getTradingHistory();
+            document.querySelector("#amount_from").value = 0; 
+            document.querySelector("#amount_to").innerText = '';
         });
+}
+
+const handlerError = (error) => {
+    alert(error.message);
 }
 
 
@@ -51,15 +67,12 @@ document.querySelector("#calculate").addEventListener('click', (ev) => {
     }
 
     formValidation(data)  
-        
-    
-    
+});
 
-    document.querySelector("#amount_from").addEventListener('keydown', (ev) => {
-        if (ev.keyCode === 8){
-            amount_to.innerHTML = "";
-        };
-    });
+document.querySelector("#amount_from").addEventListener('keydown', (ev) => {
+    if (ev.keyCode === 8){
+        document.querySelector("#amount_to").innerHTML = "";
+    };
 });
 
 document.querySelector("#accept").addEventListener('click', (ev) => {
@@ -71,9 +84,7 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
         crypto_to: document.querySelector("#crypto_to").value,
         amount_to: document.querySelector("#amount_to").innerText
     }
-    if(data.crypto_from === "From:"|| 
-       data.crypto_to === "To:" || 
-       data.amount_to === "")
+    if(data.amount_to === "")
        {
         alert ( "You must fill up all fields")
     }
@@ -81,12 +92,12 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
         saveExchange(data)
 
     }
+});
 
-    
 document.querySelector("#cancel").addEventListener('click', (ev) => {
     ev.preventDefault();
-    data.innerHTML = "";
-    });
+    document.querySelector("#amount_to").innerText = '';
+    document.querySelector("#amount_from").value = 0;
 });
 
 document.querySelector("#btn-trades").addEventListener('click', (ev) => {
@@ -126,14 +137,9 @@ function formValidation(data) {
     if (data.crypto_from === data.crypto_to) {
         alert('The cryptos can not be the same. Choose again')
     }
-    else if(data.amount_from < 0.01 || data.amount_from === ""){
+    else if(data.amount_from === "" || data.amount_from <= 0){
         alert("Wrong amount")
-    }
-    else if(data.crypto_from === "From:"|| data.crypto_to === "To:" )
-       {
-        alert ( "You must fill up all fields")
-    }
-    else {
+    } else {
         getTrading(data);
     }
 

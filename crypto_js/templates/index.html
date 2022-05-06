@@ -67,7 +67,7 @@
      <button id="btn-trades" class="button is-link is-large is-hoverable">
       TRADING</button>
   
-    <section id="trades">
+    <section id="trades" class="is-hidden">
      <div class="column is-full">
       <div class="box">
       <form id="form-trades">
@@ -75,8 +75,8 @@
         <div class="field is-grouped">
          <p class="control">
          <span class="select is-multiple is-medium">
+           FROM
           <select class="is-focused" id="crypto_from">
-            <option>From:</option>
             <option value="EUR">EUR</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
@@ -107,9 +107,8 @@
         <div class="field is-grouped">
           <p class="control">
         <span class="select is-multiple is-medium">
+          TO
           <select class="is-focused" id="crypto_to">
-            <option>To:</option>
-            <option value="EUR">EUR</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
             <option value="BNB">BNB</option>
@@ -119,6 +118,7 @@
             <option value="LUNA">LUNA</option>
             <option value="SOL">SOL</option>
             <option value="ATOM">ATOM</option>
+            <option value="EUR">EUR</option>
           </select>
           </span>
         </p>
