@@ -16,6 +16,7 @@
   </div>
  
   <div class="hero-body">
+    
     <div class = "column is-half is-mobile">
      <section class="box">
         <h2 class="title1 is-size-2">
@@ -38,6 +39,7 @@
           </table> 
            </div>
      </section>
+     
     </div>
   <div class="columns is-multiline">
     <div class= "column is-full is-offset-one">
@@ -46,26 +48,42 @@
           <h2 class="title3 is-size-2">
             Wallet</h2>
             <div class="box">
-            <table class="table is-horizantal is-striped is-fullwidth">
-            <thead>
-              <tr>
-                <th>Total Value(EUR)</th>
-                <th>Invested</th>
-                <th>Earnings</th>
-              </tr>
-            </thead>
-            <tbody id="tbody-wallet">
-            </tbody>
+            <table class="table" id="tbody-wallet">
+            
+            <div class="columns is-multiline">
+              <div class="column is-half">
+                Total Value(EUR)
+              </div>
+              <div class="column is-half" id='total_value'>
+              
+              </div>
+              <div class="column is-half" >
+                Invested
+              </div>
+              <div class="column is-half" id='invested'>
+              
+              </div>
+              <div class="column is-half">
+                Earnings
+              </div>
+              <div class="column is-half"id='earnings'>
+              
+              </div>
+
+            </div>
+            
           </table>
-            <button id="update_wallet" class="button is-info is-hoverable mt-8">
+            <button id="update_wallet" class="button is-info is-hoverable is-medium">
               Update</button>
         </div> 
         </section>
         </div>
   <div class="column is-full is-offset-one">
+    <section class= "section">
     <div class="box">
      <button id="btn-trades" class="button is-link is-large is-hoverable">
       TRADING</button>
+     
   
     <section id="trades" class="is-hidden">
      <div class="column is-full">
@@ -75,8 +93,8 @@
         <div class="field is-grouped">
          <p class="control">
          <span class="select is-multiple is-medium">
-           FROM
-          <select class="is-focused" id="crypto_from">
+          <select class="select is-focused" id="crypto_from">
+            <option disabled selected>From:</option>
             <option value="EUR">EUR</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
@@ -107,8 +125,8 @@
         <div class="field is-grouped">
           <p class="control">
         <span class="select is-multiple is-medium">
-          TO
           <select class="is-focused" id="crypto_to">
+            <option disabled selected>To:</option>
             <option value="BTC">BTC</option>
             <option value="ETH">ETH</option>
             <option value="BNB">BNB</option>
@@ -142,6 +160,7 @@
     </div>
     </section>
     </div>
+  </section>
   </div>
   </div>
 </div>

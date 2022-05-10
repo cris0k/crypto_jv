@@ -1,15 +1,9 @@
-from locale import currency
-from crypto_js import GET_RATE_COINAPI, CRYPTO
-from crypto_js.errors import APIError, CONNECT_ERROR
+from crypto_js import GET_RATE_COINAPI
+from crypto_js.errors import APIError
 import sqlite3
 import requests
-import json
-from decimal import Decimal
 from datetime import datetime
 from crypto_js import app
-
-
-
 
 class Database_inquiry:
     def __init__(self, file=":history.db:"):
@@ -70,16 +64,11 @@ class Database_inquiry:
         return time
 
     def save_data(self, params=[]):
-        con = sqlite3.connect(self.all_data)
-        cur = con.cursor()
-
-        cur.execute(
+        return self.get_exchange_data(
 
                     """ INSERT INTO history (date, time, crypto_from, amount_from,crypto_to, amount_to)
                                     values (?, ?, ?, ?, ?, ?) """
                     , params)
-        con.commit()
-        con.close()
     
     def get_data(self):
         return self.get_exchange_data("""
@@ -88,15 +77,7 @@ class Database_inquiry:
                         ORDER BY id
                     """
         )
-
-
-
-    def wallet_data(self):
-        return self.get_exchange_data("""
-                        SELECT total__value,invested,earnings
-                        FROM wallet
-                    """)
-    def getBalanceTo(self, curency):
+    def getBalanceTo(self, currency):
         
         return self.get_exchange_data("""
                         SELECT
@@ -108,9 +89,9 @@ class Database_inquiry:
                             crypto_to = ?
                             GROUP BY
                             crypto_to
-                    """, (curency,)
+                    """, (currency,)
         )
-    def getBalanceFrom(self, curency):
+    def getBalanceFrom(self, currency):
         
         return self.get_exchange_data("""
                         SELECT
@@ -122,7 +103,7 @@ class Database_inquiry:
                             crypto_from = ?
                             GROUP BY
                             crypto_from
-                    """, (curency,)
+                    """, (currency,)
         )
 
     def getBalanceFromTotal(self):
@@ -182,17 +163,21 @@ class CryptoValueModels:
         self.rate = 0
 
     def get_rate(self):
-        answer = requests.get(GET_RATE_COINAPI.format(
-        self.crypto_from,
-        self.crypto_to,
-        self.apikey
-        ))
-        # self.rate = Decimal(answer.json()["rate"])
-        self.rate = answer.json()["rate"]
-
+        try:
+            answer = requests.get(GET_RATE_COINAPI.format(
+            self.crypto_from,
+            self.crypto_to,
+            self.apikey
+            ))
+            
+            self.rate = answer.json()["rate"]
+        except:
+            raise APIError(answer.status_code)
+            
     def calculate_rate(self,amount_from=1):
         self.get_rate()
 
+        
         amount_to = amount_from*self.rate
         return amount_to
     
@@ -201,20 +186,17 @@ class CryptoValueModels:
         getbalanceTo = data_manager.getBalanceTo(currency)
 
         if not getbalanceTo:
-            # No hay saldo
-            print('No hay saldo')
             balance = 0
+
         elif not getbalanceFrom:
-            print('El saldo es el del To')
             balance = getbalanceTo[0]['amount_to']
         else:
-            print('El saldo es el del To menos From')
             balanceFrom = getbalanceFrom[0]['amount_from']
             balanceTo = getbalanceTo[0]['amount_to']
             balance = balanceTo - balanceFrom
-            print('RESTA', balanceTo, balanceFrom)
-        return balance  
-        
+        return balance
+
+    
 
 
 

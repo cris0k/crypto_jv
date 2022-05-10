@@ -1,9 +1,3 @@
-/**
- * 
- * Uses cases
- * 
- */
-
 const getTrading = (data) => {
     fetch(`http://127.0.0.1:5000/api/v1/trading/${data.crypto_from}/${data.crypto_to}/${data.amount_from}`)
         .then(response => response.json())
@@ -28,6 +22,7 @@ const getTradingHistory = () => {
                 handlerError(dataResponse);
             }
             
+            
         });
 }
 
@@ -45,6 +40,18 @@ const saveExchange = (data) => {
         });
 }
 
+const myWallet = () => {
+    fetch(`http://127.0.0.1:5000/api/v1/wallet`)
+        .then(response => response.json())
+        .then(dataResponse => {
+            if(dataResponse.status !== 'error') {
+                loadWallet(dataResponse);
+            } else {
+                handlerError(dataResponse);
+            }
+            
+        });
+}
 const handlerError = (error) => {
     alert(error.message);
 }
@@ -53,7 +60,7 @@ const handlerError = (error) => {
 
 /**
  * 
- * Events Listener
+ * Events Listeners
  * 
  */
 
@@ -97,13 +104,19 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
 document.querySelector("#cancel").addEventListener('click', (ev) => {
     ev.preventDefault();
     document.querySelector("#amount_to").innerText = '';
-    document.querySelector("#amount_from").value = 0;
+    document.querySelector("#amount_from").value = '';
+    document.querySelector("#crypto_from").value = 'From:';
+    document.querySelector("#crypto_to").value = 'To:';
 });
 
 document.querySelector("#btn-trades").addEventListener('click', (ev) => {
     ev.preventDefault();
     const trades = document.querySelector("#trades");
     trades.classList.toggle('is-hidden');
+});
+document.querySelector("#update_wallet").addEventListener('click', (ev) => {
+    ev.preventDefault();
+    myWallet();
 });
 
 
@@ -113,7 +126,9 @@ document.querySelector("#btn-trades").addEventListener('click', (ev) => {
  * 
  */
 
- getTradingHistory()
+
+getTradingHistory()
+myWallet()
 
 function loadTableData(data) {
     const tbody = document.querySelector("#tbody-history");
@@ -139,8 +154,18 @@ function formValidation(data) {
     }
     else if(data.amount_from === "" || data.amount_from <= 0){
         alert("Wrong amount")
-    } else {
+    } 
+    else if(data.crypto_from ==="From:" || data.crypto_to === "To:"){
+        alert("Please, fill up all fields")
+    }
+    else {
         getTrading(data);
     }
 
 }
+function loadWallet(data) {
+    document.querySelector("#total_value").innerText = data.total_value,
+    document.querySelector("#invested").innerText = data.invested,
+    document.querySelector("#earnings").innerText = data.earnings
+
+};
