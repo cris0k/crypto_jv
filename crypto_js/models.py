@@ -38,9 +38,7 @@ class Database_inquiry:
         return result
     
     def get_exchange_data(self, inquiry, params =[]):
-
-        # CONTROLAR FALLO DE CONEXIÓN!!!!
-
+        
         con = sqlite3.connect(self.all_data)
         cur = con.cursor()
 
@@ -173,6 +171,7 @@ class CryptoValueModels:
             self.rate = answer.json()["rate"]
         except:
             raise APIError(answer.status_code)
+            
             
     def calculate_rate(self,amount_from=1):
         self.get_rate()

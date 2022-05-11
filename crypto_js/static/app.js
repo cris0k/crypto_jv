@@ -96,7 +96,8 @@ document.querySelector("#accept").addEventListener('click', (ev) => {
         alert ( "You must fill up all fields")
     }
     else{
-        saveExchange(data)
+        saveExchange(data);
+        myWallet();
 
     }
 });
@@ -164,8 +165,9 @@ function formValidation(data) {
 
 }
 function loadWallet(data) {
+    
     document.querySelector("#total_value").innerText = data.total_value,
     document.querySelector("#invested").innerText = data.invested,
     document.querySelector("#earnings").innerText = data.earnings
-
+    
 };

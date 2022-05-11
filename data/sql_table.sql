@@ -1,4 +1,3 @@
-
 CREATE TABLE "history" (
 	"id"	INTEGER,
 	"date"	TEXT NOT NULL,

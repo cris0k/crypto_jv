@@ -62,7 +62,10 @@ def save_exchange():
                                 data['crypto_to'], 
                                 data['amount_to'],
                                  ))
-        return {'status': 'success'}, 201
+        return {
+            'status': 'success',
+            'message': 'Trading data has been saved successfully',
+            }, 201
     except sqlite3.Error :
 
         return {'status': 'error', 
@@ -98,7 +101,7 @@ def get_wallet():
             wallet.append({'crypto': currency['crypto'], 'amount': total})
 
         invested = [c for c in wallet if c['crypto'] == 'EUR'] or [{'amount': 0, 'crypto': 'EUR'}]
-        amount_value =[a_dict['amount'] for a_dict in invested]
+        amount_value =[c_dict['amount'] for c_dict in invested]
         invested_value = amount_value[0]
     
 
